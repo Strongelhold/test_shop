@@ -4,15 +4,28 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(:id)
+    @user = User.find(params[:id])
   end
 
   def new
-    @user = User.new
+    if signed_in?
+      redirect_to(root_url)
+    else
+      @user = User.new
+    end
   end
 
   def create
-    @user = User.new(user_params)
+    if signed_in?
+      redirect_to(root_url)
+    else
+      @user = User.new(user_params)
+      if @user.save
+        sign_in @user
+        flash[:success] = "Вы успешно зарегистрировались!"
+        redirect_to @user
+      end
+    end
   end
   
   def edit
