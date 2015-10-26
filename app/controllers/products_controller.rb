@@ -1,8 +1,13 @@
 class ProductsController < ApplicationController
+
+  before_action :signed_in_user, only: [:create]
+
   def index
+    @products = Product.all
   end
 
   def show
+    @product = Product.find(params[:id])
   end
 
   def new
@@ -10,13 +15,20 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(product_params)
+    @product = current_user.products.build(product_params)
+    if @product.save
+      flash[:success] = "Product added"
+      redirect_to products_path
+    else
+      flash[:danger] = "There are some mistakes"
+      render 'products#new'
+    end
   end
 
   private
     
     def product_params
-      params.requre(:product).permit(:name, :description)
+      params.require(:product).permit(:name, :description)
     end
 
 end
