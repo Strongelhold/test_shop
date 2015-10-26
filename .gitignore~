@@ -16,6 +16,7 @@
 !/log/.keep
 /tmp
 /public
+/test/*
 # Ignore vim files
 *.swm
 *.swo
@@ -23,3 +24,6 @@
 *.un
 *.un~
 *.rb~
+.gitignore~
+.Gemfile~
+*.*~

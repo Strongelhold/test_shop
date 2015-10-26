@@ -24,3 +24,7 @@
 *.un
 *.un~
 *.rb~
+.gitignore~
+.Gemfile~
+*.*~
+*.html.erb~
