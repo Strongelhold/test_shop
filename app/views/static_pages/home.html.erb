@@ -1,1 +1,9 @@
-<h1> Предварительная стартовая страница :) </h1>
+<br><br>
+<div class = "center hero-unit">
+  <% if signed_in? %>
+    <span><%= link_to "Add product", 'products/new', class: "btn btn-large btn-primary" %></span>
+  <% else %>
+    <h1>Welcome to Test app!</h1>
+    <span><%= link_to "Sign up!", signup_path, class: "btn btn-large btn-primary"%> </span>
+  <% end %>
+</div>

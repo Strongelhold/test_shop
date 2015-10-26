@@ -38,4 +38,28 @@ textarea {
   text-align: center;
 }
 
-
+.products {
+  list-style: none;
+  li {
+    padding: 30px 0;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  span {
+    margin-left: 10px;
+  }
+}
+.fileUpload {
+  position: relative;
+  margin: 10px;
+  }
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity = 0);
+}

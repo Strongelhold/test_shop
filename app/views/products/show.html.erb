@@ -1,5 +1,8 @@
 <br>
-<h1><%= @product.name %></h1>
-<h2><%= @product.description %></h2>
+<div class = "center hero-unit">
+  
+  <h1><%= @product.name %></h1>
+  <h3><%= @product.description %></h3>
 
-<%= image_tag @product.product_photo_url(:medium) %>
+  <%= image_tag @product.product_photo_url(:medium) %>
+</div>

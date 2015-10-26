@@ -1,7 +1,12 @@
 <br>
 <br>
-
-<% @products.each do |f| %>
-  <%= f.name %><br>
-  <%= f.description %><br>
-<% end %>
+<div class = "center hero-unit">
+  <ul class = "products">
+    <% @products.each do |f| %>
+      <li>
+        <%= image_tag f.product_photo.url(:thumb) %>
+       <h3><%= link_to f.name, product_path(f.id) %></h3><br>
+      <%= f.description %><br>
+    <% end %>
+  </ul>
+</div>
