@@ -3,4 +3,9 @@ class Product < ActiveRecord::Base
   validates :description, presence: true, length: { maximum: 150 }
 
   belongs_to :user
+
+  mount_uploader :product_photo, ProductPhotoUploader
+
+
+
 end
