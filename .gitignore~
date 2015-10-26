@@ -16,7 +16,6 @@
 !/log/.keep
 /tmp
 /public
-/test/*
 # Ignore vim files
 *.swm
 *.swo
