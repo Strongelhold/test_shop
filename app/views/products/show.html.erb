@@ -1,7 +1,19 @@
 <br>
 <div class = "center hero-unit">
-  
+
+  <% if current_user.type == "Admin" %>
+    <%= form_for(@product) do |f| %>
+      <%= f.label "Mark it 'Pro'" %>
+      <%= f.check_box :pro %>
+      <%= f.submit "Mark" %>
+    <% end %>
+  <% end %>
+
   <h1><%= @product.name %></h1>
+  <% if @product.pro %>
+    <h2> PRO </h2>
+  <% end %>
+  
   <h3><%= @product.description %></h3>
 
   <%= image_tag @product.product_photo_url(:medium) %>
