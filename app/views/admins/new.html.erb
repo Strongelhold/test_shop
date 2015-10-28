@@ -1,4 +1,4 @@
-<br><br>
+<div class = "center hero-unit">
 <div class = "row">
   <h1>Admin's registration</h1>
   <div class = "col-md-6 col-md-offset-3">
@@ -28,20 +28,19 @@
        <div class = "form-group">
          <%= f.label :password_confirmation, "Confirm password" %><br>
          <%= f.password_field :password_confirmation %>
-       </div >
+       </div>
 
        <div class = "fileUpload btn btn-primary">
           <span>Upload avatar <%= f.file_field :avatar, class: "upload" %> </span>
-          <br>
        </div> <br />
 
        <div class = "fileUpload btn btn-primary">
           <span>Upload passport photo <%= f.file_field :passport_photo, class: "upload" %> </span>
-          <br>
-       </div>
+       </div> <br />
 
        <%= f.submit "Registrate me!", class: "btn btn-large btn-primary" %>
 
      <% end %>
    </div>
+</div>
 </div>

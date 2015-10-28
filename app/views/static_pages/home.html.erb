@@ -1,10 +1,12 @@
 <br><br>
 <div class = "center hero-unit">
   <% if signed_in? %>
-    <span><%= link_to "Add product", 'products/new', class: "btn btn-large btn-primary" %></span>
-    <%= @current_user.type %>
+    <span>You are sign in! </span>
   <% else %>
     <h1>Welcome to Test app!</h1>
-    <span><%= link_to "Sign up!", signup_path, class: "btn btn-large btn-primary"%> </span>
+    <span><%= link_to "Admin's sign up!", adminsignup_path, class: "btn btn-large btn-primary"%> </span>
+    <span><%= link_to "Shop Owners sign up!", shopownersignup_path, class: "btn btn-large btn-primary"%> </span>
+    <span><%= link_to "Guests sign up!", guestsignup_path, class: "btn btn-large btn-primary"%> </span>
+
   <% end %>
 </div>
