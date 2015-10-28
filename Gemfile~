@@ -45,4 +45,6 @@ end
 
 gem 'bootstrap-sass'
 gem 'rmagick'
+gem 'mini_magick'
 gem 'carrierwave'
+gem 'devise'
