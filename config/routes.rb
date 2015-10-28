@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
-resources :users
-resources :sessions, only: [:new, :create, :destroy]
-resources :products
+
+  resources :users
+  resources :sessions, only: [:new, :create, :destroy]
+  resources :products
+  resources :admins
+  resources :guests
+  resources :shop_owners
+
   match '/signup',  to: 'users#new',        via: 'get'
   match '/signin',  to: 'sessions#new',     via: 'get'
   match '/signout', to: 'sessions#destroy', via: 'delete'

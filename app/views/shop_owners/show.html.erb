@@ -1,0 +1,7 @@
+<div class = "center hero-unit">
+  <h1>Это ваш профиль:</h1>
+  <h2><%= @shop_owner.shop_name %></h2><br />
+  <h2><%= @shop_owner.email %></h2><br />
+
+  <%= image_tag @shop_owner.avatar_url(:medium) %>
+</div>
