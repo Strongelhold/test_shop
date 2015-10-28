@@ -4,7 +4,7 @@ class Product < ActiveRecord::Base
 
   belongs_to :shop_owner
 
-  mount_uploader :product_photo, ProductPhotoUploader
+  mount_uploader :product_photo, PhotoUploader
 
 
 

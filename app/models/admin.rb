@@ -4,4 +4,7 @@ class Admin < User
   validates :last_name,  presence: true
   validates :birthday,   presence: true
   
+  mount_uploader :avatar,         PhotoUploader
+  mount_uploader :passport_photo, PhotoUploader
+  
 end
