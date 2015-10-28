@@ -8,6 +8,10 @@
       <%= f.submit "Mark" %>
     <% end %>
   <% end %>
+  
+  <% if current_user.type != "Guest" %>
+    <h1>Shop name: <%= @product.shop_name %> </h1>
+  <% end %>
 
   <h1><%= @product.name %></h1>
   <% if @product.pro %>

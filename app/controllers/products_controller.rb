@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
 
-  before_action :signed_in_user, only: [:create]
+  before_action :current_shop_owner, only: [:create]
 
   def index
     @products = Product.all
@@ -15,7 +15,8 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = current_user.products.build(product_params)
+    @product = current_shop_owner.products.build(product_params)
+    @product.shop_name = current_shop_owner.shop_name
     if @product.save
       flash[:success] = "Product added"
       redirect_to products_path
@@ -41,4 +42,9 @@ class ProductsController < ApplicationController
       params.require(:product).permit(:name, :description, :product_photo, :pro)
     end
 
+    def current_shop_owner
+      if current_user.type == 'ShopOwner'
+        @current_shop_owner = ShopOwner.find_by_id(current_user.id)
+      end
+    end
 end

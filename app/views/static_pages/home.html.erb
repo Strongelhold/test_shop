@@ -2,6 +2,7 @@
 <div class = "center hero-unit">
   <% if signed_in? %>
     <span><%= link_to "Add product", 'products/new', class: "btn btn-large btn-primary" %></span>
+    <%= @current_user.type %>
   <% else %>
     <h1>Welcome to Test app!</h1>
     <span><%= link_to "Sign up!", signup_path, class: "btn btn-large btn-primary"%> </span>
