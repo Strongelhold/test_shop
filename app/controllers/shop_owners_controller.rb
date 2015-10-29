@@ -18,7 +18,7 @@ class ShopOwnersController < ApplicationController
     else
       @shop_owner = ShopOwner.new(shop_owner_params)
       sign_in(@shop_owner)
-      flash[:success] = "Welcome!"
+      flash[:notice] = "Welcome!"
       redirect_to @shop_owner
     end
   end

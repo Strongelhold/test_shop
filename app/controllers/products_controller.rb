@@ -36,6 +36,13 @@ class ProductsController < ApplicationController
     redirect_to @product
   end
 
+  def buy
+    product = Product.find(params[:product_id])
+    if (current_user.type == 'Guest') && signed_in? && (!product.pro)
+      redirect_to(root_url)
+    end
+  end
+
   private
     
     def product_params
@@ -47,4 +54,5 @@ class ProductsController < ApplicationController
         @current_shop_owner = ShopOwner.find_by_id(current_user.id)
       end
     end
+
 end

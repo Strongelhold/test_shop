@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
-  resources :products
+  resources :products do
+    get :buy, on: :member
+  end
   resources :admins
   resources :guests
   resources :shop_owners
@@ -12,6 +14,7 @@ Rails.application.routes.draw do
   match '/signin',          to: 'sessions#new',     via: 'get'
   match '/signout',         to: 'sessions#destroy', via: 'delete'
 
+  #get '/products/:id/buy_product' => 'products#buy_product', as: :buy_product
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

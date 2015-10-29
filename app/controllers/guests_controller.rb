@@ -19,7 +19,7 @@ class GuestsController < ApplicationController
       @guest = Guest.new(guest_params)
       if @guest.save
         sign_in @guest
-        flash[:success] = "Welcome!"
+        flash[:notice] = "Welcome!"
         redirect_to @guest
       end
     end

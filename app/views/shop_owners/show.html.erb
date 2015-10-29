@@ -1,4 +1,9 @@
 <div class = "center hero-unit">
+<br> <br>
+  <% if flash[:notice] %>
+    <div class = "notice"><%= flash[:notice] %></div>
+  <% end %>
+
   <h1>Это ваш профиль:</h1>
   <h2><%= @shop_owner.shop_name %></h2><br />
   <h2><%= @shop_owner.email %></h2><br />

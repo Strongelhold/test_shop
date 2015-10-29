@@ -21,4 +21,6 @@
   <h3><%= @product.description %></h3>
 
   <%= image_tag @product.product_photo_url(:medium) %>
+  <br /> <br>
+  <%= link_to "Buy", buy_product_path(product_id: @product.id), class: "btn btn-large btn-primary" %>
 </div>
