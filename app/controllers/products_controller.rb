@@ -38,8 +38,10 @@ class ProductsController < ApplicationController
 
   def buy
     product = Product.find(params[:product_id])
-    if (current_user.type == 'Guest') && signed_in? && (!product.pro)
+    if (current_user.type == 'Guest') && signed_in? && (!product.pro) && (current_user.email.scan('.com') == []) && (product.shop_name != nil) 
       redirect_to(root_url)
+    else
+      redirect_to product
     end
   end
 
