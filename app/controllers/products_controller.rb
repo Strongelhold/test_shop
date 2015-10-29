@@ -53,9 +53,11 @@ class ProductsController < ApplicationController
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.request_uri)
 
+    n = rand(5000)
     response = http.request(request)
 
     @photo_url = JSON::parse(response.body)
+    @photo_url = @photo_url[n]["url"]
     return @photo_url
   end
 
