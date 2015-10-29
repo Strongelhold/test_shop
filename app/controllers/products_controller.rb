@@ -39,10 +39,24 @@ class ProductsController < ApplicationController
   def buy
     product = Product.find(params[:product_id])
     if (current_user.type == 'Guest') && signed_in? && (!product.pro) && (current_user.email.scan('.com') == []) && (product.shop_name != nil) 
+      @photo_url = ProductsController.call
+      ProductsMailer.product_bought(product, current_user.email, @photo_url).deliver_now
       redirect_to(root_url)
     else
       redirect_to product
     end
+  end
+
+  def self.call
+    uri = URI.parse("http://jsonplaceholder.typicode.com/photos/")
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Get.new(uri.request_uri)
+
+    response = http.request(request)
+
+    @photo_url = JSON::parse(response.body)
+    return @photo_url
   end
 
   private
