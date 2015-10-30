@@ -60,12 +60,18 @@ class ProductsController < ApplicationController
         redirect_to product
       else
         @photo_url = ProductsController.call
-        ProductsMailer.product_bought(product, current_user.email, @photo_url).deliver_now
-        send_mail_to_admin
-        redirect_to(root_url)
+        if @photo_url["thumbnailUrl"].split('/').last.to_i(16) > @photo_url["url"].split('/').last.to_i(16)
+          flash[:danger] = "You cannot buy this product 'cause thubmUrl > url"
+          send_error_mail_to_admin
+          redirect_to product
+        else
+          ProductsMailer.product_bought(product, current_user.email, @photo_url["url"]).deliver_now
+          send_mail_to_admin
+          redirect_to(root_url)
+        end
       end
   end
-
+  
   def send_mail_to_admin
     @id = ProductsController.post_query
     @admins = Admin.all
@@ -91,7 +97,7 @@ class ProductsController < ApplicationController
     response = http.request(request)
 
     photo_url = JSON::parse(response.body)
-    photo_url = photo_url[n]["url"]
+    photo_url = photo_url[n]
     return photo_url
   end
 
