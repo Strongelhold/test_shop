@@ -8,4 +8,10 @@ class ProductsMailer < ApplicationMailer
     mail to: email,
          subject: "Product was bought"
   end
+
+  def admin_notification(id,email)
+    @id = id
+    mail to: email,
+         subject: "Someone just bougth product"
+  end
 end

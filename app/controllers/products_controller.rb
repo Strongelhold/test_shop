@@ -41,9 +41,18 @@ class ProductsController < ApplicationController
     if (current_user.type == 'Guest') && signed_in? && (!product.pro) && (current_user.email.scan('.com') == []) && (product.shop_name != nil) 
       @photo_url = ProductsController.call
       ProductsMailer.product_bought(product, current_user.email, @photo_url).deliver_now
+      ProductsController.send_mail_to_admin
       redirect_to(root_url)
     else
       redirect_to product
+    end
+  end
+
+  def self.send_mail_to_admin
+    @id = ProductsController.post_query
+    @admins = Admin.all
+    @admins.each do |a|
+      ProductsMailer.admin_notification(@id, a.email).deliver_now
     end
   end
 
@@ -56,9 +65,18 @@ class ProductsController < ApplicationController
     n = rand(5000)
     response = http.request(request)
 
-    @photo_url = JSON::parse(response.body)
-    @photo_url = @photo_url[n]["url"]
-    return @photo_url
+    photo_url = JSON::parse(response.body)
+    photo_url = photo_url[n]["url"]
+    return photo_url
+  end
+
+  def self.post_query
+    uri = URI.parse("http://jsonplaceholder.typicode.com/todos/")
+    parameters = {"id" => "1" }
+    response = Net::HTTP.post_form(uri, parameters)
+    id = JSON::parse(response.body)
+    id = id["id"]
+    return id
   end
 
   private
