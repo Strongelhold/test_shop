@@ -14,4 +14,10 @@ class ProductsMailer < ApplicationMailer
     mail to: email,
          subject: "Someone just bougth product"
   end
+
+  def buy_product_error(user_email, email)
+    @user_email = user_email
+    mail to: email,
+         subject: "Buy product error"
+  end
 end

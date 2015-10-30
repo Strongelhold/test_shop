@@ -38,21 +38,46 @@ class ProductsController < ApplicationController
 
   def buy
     product = Product.find(params[:product_id])
-    if (current_user.type == 'Guest') && signed_in? && (!product.pro) && (current_user.email.scan('.com') == []) && (product.shop_name != nil) 
-      @photo_url = ProductsController.call
-      ProductsMailer.product_bought(product, current_user.email, @photo_url).deliver_now
-      ProductsController.send_mail_to_admin
-      redirect_to(root_url)
-    else
-      redirect_to product
-    end
+      case false
+      when signed_in?
+        flash[:danger] = "Sign in first!"
+        redirect_to product
+      when (current_user.type == 'Guest')
+        flash[:danger] = "You are not guest!"
+        send_error_mail_to_admin
+        redirect_to product
+      when (!product.pro)
+        flash[:danger] = "You are not allowed to buy PRO products"
+        send_error_mail_to_admin
+        redirect_to product
+      when (current_user.email.scan('.com') == [])
+        flash[:danger] = "You are not allowed to buy products 'cause your mail in .com zone"
+        send_error_mail_to_admin
+        redirect_to product
+      when (product.shop_name != nil)
+        flash[:danger] = "Product's name are nil. You can't buy this product"
+        send_error_mail_to_admin
+        redirect_to product
+      else
+        @photo_url = ProductsController.call
+        ProductsMailer.product_bought(product, current_user.email, @photo_url).deliver_now
+        send_mail_to_admin
+        redirect_to(root_url)
+      end
   end
 
-  def self.send_mail_to_admin
+  def send_mail_to_admin
     @id = ProductsController.post_query
     @admins = Admin.all
     @admins.each do |a|
       ProductsMailer.admin_notification(@id, a.email).deliver_now
+    end
+  end
+
+  def send_error_mail_to_admin
+    @admins = Admin.all
+    @admins.each do |a|
+      ProductsMailer.buy_product_error(current_user.email, a.email).deliver_now
     end
   end
 

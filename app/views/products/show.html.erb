@@ -1,7 +1,7 @@
 <br>
 <div class = "center hero-unit">
 
-  <% if current_user.type == "Admin" %>
+  <% if signed_in? && current_user.type == "Admin" %>
     <%= form_for(@product) do |f| %>
       <%= f.label "Mark it 'Pro'" %>
       <%= f.check_box :pro %>
@@ -9,7 +9,7 @@
     <% end %>
   <% end %>
   
-  <% if current_user.type != "Guest" %>
+  <% if signed_in? && current_user.type != "Guest" %>
     <h1>Shop name: <%= @product.shop_name %> </h1>
   <% end %>
 
