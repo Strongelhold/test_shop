@@ -1,9 +1,9 @@
 class User < ActiveRecord::Base
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, :on => :create
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }
-  
+  self.inheritance_column = :_type_enabled # I was broke the STI so it's need
   
   before_save { email.downcase! }
   before_create :create_remember_token
@@ -21,4 +21,5 @@ class User < ActiveRecord::Base
     def create_remember_token
       self.remember_token = User.encrypt(User.new_remember_token)
     end
+
 end

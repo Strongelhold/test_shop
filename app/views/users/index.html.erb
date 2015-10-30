@@ -1,6 +1,10 @@
 <br>
-<% @users.each do |f| %>
-  <%=f.name%> <br />
-  <%=f.email%>
-
-<% end %>
+<br>
+<div class = "center hero-unit">
+  <ul class = "products">
+    <% @users.each do |f| %>
+      <li>
+       <h3><%= link_to f.email, user_path(f.id) %></h3><br>
+    <% end %>
+  </ul>
+</div>

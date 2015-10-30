@@ -7,12 +7,17 @@ Rails.application.routes.draw do
   resources :admins
   resources :guests
   resources :shop_owners
+  resources :users do
+    get :change_type_to_admin,      on: :member
+    get :change_type_to_guest,      on: :member
+    get :change_type_to_shop_owner, on: :member
+  end
 
-  match '/adminsignup',     to: 'admins#new',        via: 'get'
-  match '/guestsignup',     to: 'guests#new',        via: 'get'
-  match '/shopownersignup', to: 'shop_owners#new',        via: 'get'
-  match '/signin',          to: 'sessions#new',     via: 'get'
-  match '/signout',         to: 'sessions#destroy', via: 'delete'
+  match '/adminsignup',         to: 'admins#new',       via: 'get'
+  match '/guestsignup',         to: 'guests#new',       via: 'get'
+  match '/shopownersignup',     to: 'shop_owners#new',  via: 'get'
+  match '/signin',              to: 'sessions#new',     via: 'get'
+  match '/signout',             to: 'sessions#destroy', via: 'delete'
 
   #get '/products/:id/buy_product' => 'products#buy_product', as: :buy_product
   # The priority is based upon order of creation: first created -> highest priority.

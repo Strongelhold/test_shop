@@ -1,5 +1,12 @@
 <div class = "center hero-unit">
   <h1>Это ваш профиль:</h1>
-  <h2><%= @user.name %></h2><br />
   <h2><%= @user.email %></h2><br />
+  <% if signed_in? && current_user.type == 'Admin' %>
+    <%= form_for(@user.becomes(User)) do |f| %>
+      <% f.object = @user.becomes(@user.class) %>
+      <%= link_to "Change to Admin", change_type_to_admin_user_path(user_id: @user.id) %>
+      <%= link_to "Change to Guest", change_type_to_guest_user_path(user_id: @user.id) %>
+      <%= link_to "Change to Shop owner", change_type_to_shop_owner_user_path(user_id: @user.id) %>
+    <% end %>
+  <% end %>
 </div>
