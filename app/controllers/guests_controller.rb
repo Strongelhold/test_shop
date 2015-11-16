@@ -1,7 +1,7 @@
 class GuestsController < ApplicationController
   
   def show
-    @guest = Guest.find(params[:id]) 
+    @guest = Guest.find(params[:id])
   end
 
   def new
@@ -19,13 +19,14 @@ class GuestsController < ApplicationController
       @guest = Guest.new(guest_params)
       if @guest.save
         sign_in @guest
-        flash[:notice] = "Welcome!"
+        flash[:notice] = 'Welcome!'
         redirect_to @guest
       end
     end
   end
 
   private
+
     def guest_params
       params.require(:guest).permit(:email, :password)
     end

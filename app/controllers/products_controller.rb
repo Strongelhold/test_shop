@@ -18,10 +18,10 @@ class ProductsController < ApplicationController
     @product = current_shop_owner.products.build(product_params)
     @product.shop_name = current_shop_owner.shop_name
     if @product.save
-      flash[:success] = "Product added"
+      flash[:success] = 'Product added'
       redirect_to products_path
     else
-      flash[:danger] = "There are some mistakes"
+      flash[:danger] = 'There are some mistakes'
       render 'products#new'
     end
   end
@@ -32,7 +32,7 @@ class ProductsController < ApplicationController
   def update
     @product = Product.find(params[:id])
     @product.update_attributes(product_params)
-    flash[:success] = "Product marked like Pro"
+    flash[:success] = 'Product marked like Pro'
     redirect_to @product
   end
 
@@ -40,32 +40,32 @@ class ProductsController < ApplicationController
     product = Product.find(params[:product_id])
       case false
       when signed_in?
-        flash[:danger] = "Sign in first!"
+        flash[:danger] = 'Sign in first!'
         redirect_to product
       when (current_user.type == 'Guest')
-        flash[:danger] = "You are not guest!"
+        flash[:danger] = 'You are not guest!'
         send_error_mail_to_admin
         redirect_to product
       when (!product.pro)
-        flash[:danger] = "You are not allowed to buy PRO products"
+        flash[:danger] = 'You are not allowed to buy PRO products'
         send_error_mail_to_admin
         redirect_to product
       when (current_user.email.scan('.com') == [])
-        flash[:danger] = "You are not allowed to buy products 'cause your mail in .com zone"
+        flash[:danger] = 'You are not allowed to buy products cause your mail in .com zone'
         send_error_mail_to_admin
         redirect_to product
-      when (product.shop_name != nil)
-        flash[:danger] = "Product's name are nil. You can't buy this product"
+      when (product.shop_name.nil?)
+        flash[:danger] = 'Product name are nil. You can not buy this product'
         send_error_mail_to_admin
         redirect_to product
       else
         @photo_url = ProductsController.call
-        if @photo_url["thumbnailUrl"].split('/').last.to_i(16) > @photo_url["url"].split('/').last.to_i(16)
-          flash[:danger] = "You cannot buy this product 'cause thubmUrl > url"
+        if @photo_url['thumbnailUrl'].split('/').last.to_i(16) > @photo_url['url'].split('/').last.to_i(16)
+          flash[:danger] = 'You cannot buy this product cause thubmUrl > url'
           send_error_mail_to_admin
           redirect_to product
         else
-          ProductsMailer.product_bought(product, current_user.email, @photo_url["url"]).deliver_now
+          ProductsMailer.product_bought(product, current_user.email, @photo_url['url']).deliver_now
           send_mail_to_admin
           redirect_to(root_url)
         end
@@ -88,7 +88,7 @@ class ProductsController < ApplicationController
   end
 
   def self.call
-    uri = URI.parse("http://jsonplaceholder.typicode.com/photos/")
+    uri = URI.parse('http://jsonplaceholder.typicode.com/photos/')
 
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.request_uri)
@@ -98,16 +98,14 @@ class ProductsController < ApplicationController
 
     photo_url = JSON::parse(response.body)
     photo_url = photo_url[n]
-    return photo_url
   end
 
   def self.post_query
-    uri = URI.parse("http://jsonplaceholder.typicode.com/todos/")
-    parameters = {"id" => "1" }
+    uri = URI.parse('http://jsonplaceholder.typicode.com/todos/')
+    parameters = { 'id' => '1' }
     response = Net::HTTP.post_form(uri, parameters)
     id = JSON::parse(response.body)
-    id = id["id"]
-    return id
+    id = id['id']
   end
 
   private
@@ -121,5 +119,4 @@ class ProductsController < ApplicationController
         @current_shop_owner = ShopOwner.find_by_id(current_user.id)
       end
     end
-
 end

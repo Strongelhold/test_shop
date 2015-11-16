@@ -18,12 +18,13 @@ class ShopOwnersController < ApplicationController
     else
       @shop_owner = ShopOwner.new(shop_owner_params)
       sign_in(@shop_owner)
-      flash[:notice] = "Welcome!"
+      flash[:notice] = 'Welcome!'
       redirect_to @shop_owner
     end
   end
 
-  private 
+  private
+  
     def shop_owner_params
       params.require(:shop_owner).permit(:shop_name, :email, :password, :avatar)
     end

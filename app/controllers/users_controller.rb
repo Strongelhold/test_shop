@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   
-
   def index
     @users = User.all
   end
@@ -24,7 +23,7 @@ class UsersController < ApplicationController
       @user = User.new(user_params)
       if @user.save
         sign_in @user
-        flash[:success] = "Welcome!"
+        flash[:success] = 'Welcome!'
         redirect_to @user
       end
     end
@@ -38,44 +37,40 @@ class UsersController < ApplicationController
 
   def change_type_to_guest
     user = User.find(params[:user_id])
-    #user.type = type
-    #if user.save!
     if user.update_attributes(:type => 'Guest')
-      flash[:success] = "Edit successful"
+      flash[:success] = 'Edit successful'
       redirect_to user
     else
-      flash[:danger] = "Edit unsuccessful"
+      flash[:danger] = 'Edit unsuccessful'
       redirect_to user
     end
   end
 
   def change_type_to_shop_owner
     user = User.find(params[:user_id])
-    #user.type = type
-    #if user.save!
     if user.update_attributes(:type => 'Shop_owner')
-      flash[:success] = "Edit successful"
+      flash[:success] = 'Edit successful'
       redirect_to user
     else
-      flash[:danger] = "Edit unsuccessful"
+      flash[:danger] = 'Edit unsuccessful'
       redirect_to user
     end
-  end 
+  end
+
   def change_type_to_admin
     user = User.find(params[:user_id])
-    #user.type = type
-    #if user.save!
     if user.update_attributes(:type => 'Admin')
-      flash[:success] = "Edit successful"
+      flash[:success] = 'Edit successful'
       redirect_to user
     else
-      flash[:danger] = "Edit unsuccessful"
+      flash[:danger] = 'Edit unsuccessful'
       redirect_to user
     end
   end
 
   private
+
     def user_params
-      params.require(:user).permit(:email,:password)
+      params.require(:user).permit(:email, :password)
     end
 end
