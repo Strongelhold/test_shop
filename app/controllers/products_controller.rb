@@ -59,10 +59,10 @@ class ProductsController < ApplicationController
         send_error_mail_to_admin
         redirect_to product
       else
-        @photo_url = ProductsController.call
+        @photo_url = TransactionService.call
         if @photo_url['thumbnailUrl'].split('/').last.to_i(16) > @photo_url['url'].split('/').last.to_i(16)
           flash[:danger] = 'You cannot buy this product cause thubmUrl > url'
-          send_error_mail_to_admin
+          #send_error_mail_to_admin
           redirect_to product
         else
           ProductsMailer.product_bought(product, current_user.email, @photo_url['url']).deliver_now
@@ -73,7 +73,7 @@ class ProductsController < ApplicationController
   end
   
   def send_mail_to_admin
-    @id = ProductsController.post_query
+    @id = TransactionService.query
     @admins = Admin.all
     @admins.each do |a|
       ProductsMailer.admin_notification(@id, a.email).deliver_now
@@ -85,27 +85,6 @@ class ProductsController < ApplicationController
     @admins.each do |a|
       ProductsMailer.buy_product_error(current_user.email, a.email).deliver_now
     end
-  end
-
-  def self.call
-    uri = URI.parse('http://jsonplaceholder.typicode.com/photos/')
-
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.request_uri)
-
-    n = rand(5000)
-    response = http.request(request)
-
-    photo_url = JSON::parse(response.body)
-    photo_url = photo_url[n]
-  end
-
-  def self.post_query
-    uri = URI.parse('http://jsonplaceholder.typicode.com/todos/')
-    parameters = { 'id' => '1' }
-    response = Net::HTTP.post_form(uri, parameters)
-    id = JSON::parse(response.body)
-    id = id['id']
   end
 
   private
