@@ -9,5 +9,9 @@ module Service
     def self.query(*args)
       new(*args).query
     end
+    
+    def self.successful?(*args)
+      new(*args).successful?
+    end
   end
 end

@@ -12,13 +12,19 @@ class TransactionService
     photo_url = photo_url[n]
   end
 
-  # It does not work properly
   def query
     uri = URI.parse('http://jsonplaceholder.typicode.com/todos/')
-    parameters = { 'id' => '1' }
-    response = Net::HTTP.post_form(uri, parameters)
-    id = JSON::parse(response.body)
-    id = id['id']
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.request_uri)
+    request["Content-Type"] = "application/json"
+    response = http.request(request)
+    id = JSON.parse(response.body)["id"]
+  end
+
+  def self.successful?(photo_url)
+    first_number  = photo_url['thumbnailUrl'].split('/').last
+    second_number = photo_url['url'].split('/').last
+    first_number.to_i(16) > second_number.to_i(16)
   end
 
 end

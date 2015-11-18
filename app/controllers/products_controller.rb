@@ -60,13 +60,13 @@ class ProductsController < ApplicationController
         redirect_to product
       else
         @photo_url = TransactionService.call
-        if @photo_url['thumbnailUrl'].split('/').last.to_i(16) > @photo_url['url'].split('/').last.to_i(16)
+        if TransactionService.successful?(@photo_url) 
           flash[:danger] = 'You cannot buy this product cause thubmUrl > url'
           #send_error_mail_to_admin
           redirect_to product
         else
           ProductsMailer.product_bought(product, current_user.email, @photo_url['url']).deliver_now
-          send_mail_to_admin
+          #send_mail_to_admin
           redirect_to(root_url)
         end
       end
