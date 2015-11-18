@@ -16,6 +16,18 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest(token.to_s)
   end
 
+  def admin?
+    type == 'Admin'
+  end
+
+  def shop_owner?
+    type == 'ShopOwner'
+  end
+
+  def guest?
+    type == 'Guest'
+  end
+
   private
 
     def create_remember_token

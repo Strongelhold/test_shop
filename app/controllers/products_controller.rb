@@ -31,45 +31,25 @@ class ProductsController < ApplicationController
 
   def update
     @product = Product.find(params[:id])
+    authorize @product
     @product.update_attributes(product_params)
     flash[:success] = 'Product marked like Pro'
     redirect_to @product
   end
 
   def buy
-    product = Product.find(params[:product_id])
-      case false
-      when signed_in?
-        flash[:danger] = 'Sign in first!'
-        redirect_to product
-      when (current_user.type == 'Guest')
-        flash[:danger] = 'You are not guest!'
-        send_error_mail_to_admin
-        redirect_to product
-      when (!product.pro)
-        flash[:danger] = 'You are not allowed to buy PRO products'
-        send_error_mail_to_admin
-        redirect_to product
-      when (current_user.email.scan('.com') == [])
-        flash[:danger] = 'You are not allowed to buy products cause your mail in .com zone'
-        send_error_mail_to_admin
-        redirect_to product
-      when (product.shop_name.nil?)
-        flash[:danger] = 'Product name are nil. You can not buy this product'
-        send_error_mail_to_admin
-        redirect_to product
+    @product = Product.find(params[:product_id])
+    authorize @product
+    @photo_url = TransactionService.call
+    if TransactionService.successful?(@photo_url) 
+      flash[:danger] = 'You cannot buy this product cause thubmUrl > url'
+      #send_error_mail_to_admin
+      redirect_to @product
       else
-        @photo_url = TransactionService.call
-        if TransactionService.successful?(@photo_url) 
-          flash[:danger] = 'You cannot buy this product cause thubmUrl > url'
-          #send_error_mail_to_admin
-          redirect_to product
-        else
-          ProductsMailer.product_bought(product, current_user.email, @photo_url['url']).deliver_now
-          #send_mail_to_admin
-          redirect_to(root_url)
-        end
-      end
+        ProductsMailer.product_bought(@product, current_user.email, @photo_url['url']).deliver_now
+        #send_mail_to_admin
+        redirect_to(root_url)
+    end
   end
   
   def send_mail_to_admin
@@ -94,7 +74,7 @@ class ProductsController < ApplicationController
     end
 
     def current_shop_owner
-      if current_user.type == 'ShopOwner'
+      if current_user.shop_owner?
         @current_shop_owner = ShopOwner.find_by_id(current_user.id)
       end
     end
