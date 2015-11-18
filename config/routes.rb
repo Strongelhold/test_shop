@@ -8,9 +8,7 @@ Rails.application.routes.draw do
   resources :guests
   resources :shop_owners
   resources :users do
-    get :change_type_to_admin,      on: :member
-    get :change_type_to_guest,      on: :member
-    get :change_type_to_shop_owner, on: :member
+    get :change_type, on: :member
   end
 
   match '/adminsignup',         to: 'admins#new',       via: 'get'

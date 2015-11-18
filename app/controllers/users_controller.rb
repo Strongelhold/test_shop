@@ -33,21 +33,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    authorize current_user
+   # authorize current_user
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = 'Edit successful'
-      redirect_to @user
-    else
-      flash[:danger] = 'Edit unsuccessful'
-      redirect_to @user
-    end
-  end
-
-  def change_type(user_id, type)
-    authorize @user
-    @user = User.find(params[user_id])
-    if @user.update_attributes(:type => 'Guest')
       flash[:success] = 'Edit successful'
       redirect_to @user
     else
