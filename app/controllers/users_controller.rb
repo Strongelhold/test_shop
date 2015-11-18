@@ -33,44 +33,32 @@ class UsersController < ApplicationController
   end
 
   def update
-  end
-
-  def change_type_to_guest
-    user = User.find(params[:user_id])
-    if user.update_attributes(:type => 'Guest')
+    authorize current_user
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
       flash[:success] = 'Edit successful'
-      redirect_to user
+      redirect_to @user
     else
       flash[:danger] = 'Edit unsuccessful'
-      redirect_to user
+      redirect_to @user
     end
   end
 
-  def change_type_to_shop_owner
-    user = User.find(params[:user_id])
-    if user.update_attributes(:type => 'Shop_owner')
+  def change_type(user_id, type)
+    authorize @user
+    @user = User.find(params[user_id])
+    if @user.update_attributes(:type => 'Guest')
       flash[:success] = 'Edit successful'
-      redirect_to user
+      redirect_to @user
     else
       flash[:danger] = 'Edit unsuccessful'
-      redirect_to user
-    end
-  end
-
-  def change_type_to_admin
-    user = User.find(params[:user_id])
-    if user.update_attributes(:type => 'Admin')
-      flash[:success] = 'Edit successful'
-      redirect_to user
-    else
-      flash[:danger] = 'Edit unsuccessful'
-      redirect_to user
+      redirect_to @user
     end
   end
 
   private
 
     def user_params
-      params.require(:user).permit(:email, :password)
+      params.require(:user).permit(:email, :password, :type)
     end
 end
