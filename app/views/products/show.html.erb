@@ -1,26 +1,9 @@
 <br>
 <div class = "center hero-unit">
 
-  <% if signed_in? && current_user.admin? %>
-    <%= form_for(@product) do |f| %>
-      <%= f.label "Mark it 'Pro'" %>
-      <%= f.check_box :pro %><br /><br />
-      <%= f.submit "Mark", class: 'btn btn-large btn-primary' %>
-    <% end %>
-  <% end %>
-  
-  <% if signed_in? && !current_user.guest? %>
-    <h1>Shop name: <%= @product.shop_name %> </h1>
-  <% end %>
-
-  <h1><%= @product.name %></h1>
-  <% if @product.pro %>
-    <h2> PRO </h2>
-  <% end %>
-  
   <h3><%= @product.description %></h3>
 
   <%= image_tag @product.product_photo_url(:medium) %>
-  <br /> <br>
-  <%= link_to 'Buy', buy_product_path(product_id: @product.id), class: "btn btn-large btn-primary" %>
+  <br />
+  <h4>If you want to buy this product please sign up!</h4>
 </div>

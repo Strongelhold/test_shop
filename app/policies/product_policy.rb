@@ -10,7 +10,7 @@ class ProductPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    true 
   end
 
   def buy?
@@ -20,8 +20,8 @@ class ProductPolicy < ApplicationPolicy
       when record.pro then 'You are not allowed to buy Pro products'
       when record.shop_name.nil? then 'Shop name are nil. You can\'t buy this product'
       when user.email.scan('.com').nil? then 'You are not allowed to buy products \'cause your mail in .com zone'
-    else return true
+    else true
     end
-    return false
+    false
   end
 end

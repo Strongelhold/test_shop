@@ -8,6 +8,12 @@ class ProductsController < ApplicationController
 
   def show
     @product = Product.find(params[:id])
+    case
+    when !signed_in?              then render 'show'
+    when current_user.admin?      then render 'products/for_admins/show'
+    when current_user.guest?      then render 'products/for_guests/show'
+    when current_user.shop_owner? then render 'products/for_shop_owners/show'
+    end
   end
 
   def new
