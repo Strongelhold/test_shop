@@ -60,16 +60,20 @@ class ProductsController < ApplicationController
   
   def send_mail_to_admin
     @id = TransactionService.query
-    @admins = Admin.all
-    @admins.each do |a|
-      ProductsMailer.admin_notification(@id, a.email).deliver_now
+    @users = User.all
+    @users.each do |u|
+      if u.admin?
+        ProductsMailer.admin_notification(@id, u.email).deliver_now
+      end
     end
   end
 
   def send_error_mail_to_admin
-    @admins = Admin.all
-    @admins.each do |a|
-      ProductsMailer.buy_product_error(current_user.email, a.email).deliver_now
+    @users = User.all
+    @users.each do |u|
+      if u.admin?
+        ProductsMailer.buy_product_error(current_user.email, u.email).deliver_now
+      end
     end
   end
 
