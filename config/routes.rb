@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   resources :products do
     get :buy, on: :member
   end
-  resources :admins
-  resources :guests
-  resources :shop_owners
+  resources :admins,      only: [:new, :create, :show]
+  resources :guests,      only: [:new, :create, :show]
+  resources :shop_owners, only: [:new, :create, :show]
   resources :users
 
   match '/adminsignup',         to: 'admins#new',       via: 'get'
