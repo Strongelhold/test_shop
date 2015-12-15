@@ -1,6 +1,11 @@
 class ProductsController < ApplicationController
 
   before_action :current_shop_owner, only: [:create]
+  TEMPLATES = {
+    'Guest'     => 'products/for_guests/show',
+    'Admin'     => 'products/for_admins/show',
+    'ShopOwner' => 'products/for_shop_owners/show'
+  }
 
   def index
     @products = Product.all
@@ -8,12 +13,9 @@ class ProductsController < ApplicationController
 
   def show
     @product = Product.find(params[:id])
-    case
-    when !signed_in?              then render 'show'
-    when current_user.admin?      then render 'products/for_admins/show'
-    when current_user.guest?      then render 'products/for_guests/show'
-    when current_user.shop_owner? then render 'products/for_shop_owners/show'
-    end
+    action = signed_in? ? TEMPLATES[current_user.type] : 'show'
+    
+    render action
   end
 
   def new
